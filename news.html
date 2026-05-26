@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="tg">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Хабарҳо | Донишкадаи байналмилалии Хуҷанд</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/style/news.css">
+    <style>
+        /* Modal ойна стили */
+        .news-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .news-modal-content {
+            background: var(--white, #FFFFFF);
+            border-radius: 24px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary, #0A66C2);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .news-modal-header h3 {
+            margin: 0;
+            font-size: 22px;
+            color: var(--white, #FFFFFF);
+        }
+
+        .news-modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--white, #FFFFFF);
+            transition: all 0.3s;
+        }
+
+        .news-modal-close:hover {
+            transform: scale(1.1);
+            color: #f0f0f0;
+        }
+
+        .news-modal-body {
+            padding: 24px;
+        }
+
+        .news-modal-date {
+            color: var(--primary, #0A66C2);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary, #0A66C2);
+            display: inline-block;
+        }
+
+        .news-modal-text {
+            line-height: 1.7;
+            color: var(--gray, #666666);
+            font-size: 15px;
+        }
+
+        .news-modal-text p {
+            margin-bottom: 16px;
+        }
+
+        .news-modal-text ul,
+        .news-modal-text ol {
+            margin: 16px 0;
+            padding-left: 20px;
+        }
+
+        .news-modal-text li {
+            margin: 8px 0;
+        }
+
+        .news-modal-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .news-modal-header h3 {
+                font-size: 18px;
+            }
+
+            .news-modal-body {
+                padding: 16px;
+            }
+        }
+
+        /* Тил алмаштириш менюси */
+        .lang-switcher-nav {
+            position: relative;
+            list-style: none;
+            margin-left: 15px;
+        }
+
+        .lang-btn-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 30px;
+            background: var(--gray-light, #F5F5F5);
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark, #1A1A2E);
+        }
+
+        .lang-btn-nav:hover {
+            background: var(--primary, #0A66C2);
+            color: var(--white, #FFFFFF);
+        }
+
+        .arrow {
+            font-size: 10px;
+        }
+
+        .lang-dropdown-nav {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--white, #FFFFFF);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            min-width: 140px;
+            display: none;
+            flex-direction: column;
+            list-style: none;
+            padding: 8px 0;
+            z-index: 1000;
+            border: 1px solid #eee;
+        }
+
+        .lang-dropdown-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: var(--dark, #1A1A2E);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .lang-dropdown-nav a:hover {
+            background: var(--gray-light, #F5F5F5);
+            color: var(--primary, #0A66C2);
+        }
+
+        .lang-dropdown-nav.show {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <img src="/images/logo.jpg" alt="Логотип" width="60px" height="60px">
+                <a href="index.html" class="logo">Донишкадаи байналмилалии Хуҷанд</a>
+                <div class="menu-icon" id="menuIcon">☰</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Асосӣ</a></li>
+                    <li><a href="about.html">Донишкада</a></li>
+                    <li><a href="faculties.html">Факултетҳо</a></li>
+                    <li><a href="news.html" class="active">Хабарҳо</a></li>
+                    <li><a href="admissions.html">Қабул</a></li>
+                    <li><a href="contact.html">Тамос</a></li>
+                    <!-- <li class="lang-switcher-nav">
+                        <div class="lang-btn-nav" id="langBtnNav">
+                            🇹🇯 <span class="arrow">▼</span>
+                        </div>
+                        <ul class="lang-dropdown-nav" id="langDropdownNav">
+                            <li><a href="news.html">🇹🇯 Тоҷикӣ</a></li>
+                            <li><a href="news_ru.html">🇷🇺 Русский</a></li>
+                        </ul>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>Хабарҳо ва эълонҳо</h1>
+                <p>Рӯйдодҳои муҳими донишкада — вохӯриҳо, созишномаҳо, дастовардҳо</p>
+            </div>
+        </section>
+
+        <section class="news-main-layout">
+            <div class="container">
+                <div class="two-columns">
+                    <div class="news-content">
+
+                        <!-- FEATURED NEWS - 1. Сафири Фаронса -->
+                        <div class="featured-news">
+                            <div class="featured-image">
+                                <img src="/images/news_rasm1.png" alt="Сафири Фаронса дар Донишкада">
+                                style="width:100%;height:100%;object-fit:cover">
+                            </div>
+                            <div class="featured-content">
+                                <span class="featured-badge">МУҲИМ</span>
+                                <div class="featured-date">27 ноябри 2025</div>
+                                <h2>Сафири Фавқуллода ва Мухтори Ҷумҳурии Фаронса Элза Пинёл ба Донишкадаи байналмилалии
+                                    Хуҷанд ташриф овард</h2>
+                                <p>Дар доираи ташрифи расмӣ ба вилояти Суғд, Сафири Фаронса хонум Элза Пинёл бо
+                                    роҳбарият ва омӯзгорони донишкада мулоқот карда, дар бораи рушди ҳамкориҳои таълимӣ
+                                    ва фарҳангӣ суҳбат намуд.</p>
+                                <a href="#" class="read-more" data-news-id="news1">Батафсил →</a>
+                            </div>
+                        </div>
+
+                        <div class="news-grid">
+                            <!-- 2. Конференсияи 26-ум -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm.jpg" alt="Конференсияи маҷозӣ">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Илм</span>
+                                    <div class="news-date">13 ноябри 2025</div>
+                                    <h3>Иштирок дар конференсияи 26-уми маҷозӣ бо Донишкадаи идоракунии ба номи В.И.
+                                        Вернадский</h3>
+                                    <p>Намояндагони Донишкадаи байналмилалии Хуҷанд дар конференсияи 26-уми маҷозии
+                                        Донишкадаи идоракунии ба номи В.И. Вернадский (шаҳри Симферопол, Ҷумҳурии Қрим)
+                                        иштирок намуданд.</p>
+                                    <a href="#" class="read-more" data-news-id="news2">Батафсил →</a>
+                                </div>
+                            </div>
+
+                            <!-- 3. Стипендияи Сафири Чин -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm1.png" alt="Стипендияи Сафири Чин">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Дастовард</span>
+                                    <div class="news-date">10 ноябри 2025</div>
+                                    <h3>Донишҷӯи мо Каримов Фареҳ Хадирович Стипендияи Сафири Чин гирифт</h3>
+                                    <p>Дар Донишкадаи Конфутсийи назди Донишгоҳи миллии Тоҷикистон маросими супоридани
+                                        Стипендияи Сафири Чин баргузор гардид. Донишҷӯи курси 2-юми ихтисоси "Забони
+                                        хориҷӣ (забони хитоӣ)" Каримов Фареҳ миёни ғолибон қарор гирифт.</p>
+                                    <a href="#" class="read-more" data-news-id="news3">Батафсил →</a>
+                                </div>
+                            </div>
+
+                            <!-- 4. Табодули академикӣ ба Фарғона (БЕЗ ТУГМА) -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm.jpg" alt="Табодули академикӣ">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Ҳамкорӣ</span>
+                                    <div class="news-date">1-6 ноябри 2025</div>
+                                    <h3>Табодули академикии 15 нафар донишҷӯёни мо бо Донишгоҳи давлатии Фарғона</h3>
+                                    <p>Дар доираи ҳамкориҳои байнидонишгоҳӣ, 15 нафар донишҷӯёни Донишкадаи
+                                        байналмилалии Хуҷанд ба Донишгоҳи давлатии Фарғона барои табодули таҷриба сафар
+                                        карданд.</p>
+                                </div>
+                            </div>
+
+                            <!-- 5. Созишнома бо Корея -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm1.png" alt="Созишнома бо Корея">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Ҳамкорӣ</span>
+                                    <div class="news-date">31 октябри 2025</div>
+                                    <h3>Созишномаи ҳамкорӣ бо Донишгоҳи лифтҳои Корея имзо карда шуд</h3>
+                                    <p>Донишкадаи байналмилалии Хуҷанд бо Донишгоҳи лифтҳои Корея созишномаи ҳамкорӣ
+                                        имзо кард. Созишнома табодули донишҷӯён ва устодон, ҳамчунин ташкили лоиҳаҳои
+                                        муштараки илмиро дар бар мегирад.</p>
+                                    <a href="#" class="read-more" data-news-id="news5">Батафсил →</a>
+                                </div>
+                            </div>
+
+                            <!-- 6. Семинар бо Олмон ва Русия -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm.jpg" alt="Семинар байналмилалӣ">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Илм</span>
+                                    <div class="news-date">30 октябри 2025</div>
+                                    <h3>Семинари илмӣ-назариявӣ бо Донишгоҳи Анхалт (Олмон) ва Донишгоҳи давлатии
+                                        иқтисодии Санкт-Петербург</h3>
+                                    <p>Бо мақсади рушди робитаҳои илмӣ, мубодилаи таҷриба, табодули донишҷӯён ва
+                                        устодон, Донишкада семинари илмӣ-назариявиро дар мавзӯи "Рушди туризм дар
+                                        Тоҷикистон" гузаронид.</p>
+                                    <a href="#" class="read-more" data-news-id="news6">Батафсил →</a>
+                                </div>
+                            </div>
+
+                            <!-- 7. Саммит дар Тошканд -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm1.png" alt="Саммит дар Тошканд">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Ҳамкорӣ</span>
+                                    <div class="news-date">27-28 октябри 2025</div>
+                                    <h3>Иштирок дар Саммити байналмилалии табодули академӣ дар Тошканд</h3>
+                                    <p>Намояндагони Донишкада дар Саммити байналмилалӣ, ки дар якҷоягӣ бо Донишгоҳи
+                                        Кюнгдон (Ҷумҳурии Корея) баргузор гардид, иштирок намуданд. Зиёда аз 50 донишгоҳ
+                                        аз 30 давлат ҷамъ омада, робитаҳои нав барқарор карданд.</p>
+                                    <a href="#" class="read-more" data-news-id="news7">Батафсил →</a>
+                                </div>
+                            </div>
+
+                            <!-- 8. Сафари корӣ ба Чин -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm.jpg" alt="Сафари корӣ ба Чин">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Ҳамкорӣ</span>
+                                    <div class="news-date">23 октябри 2025</div>
+                                    <h3>Сафари кориӣ ба Донишгоҳи педагогии Шимолу шарқӣ (Чин)</h3>
+                                    <p>Муовини ректор оид ба таълим, профессор Бобоҷониён Д.Д. ва декани факултети
+                                        педагогика ва филология, дотсент Рустамзода З.Р. аз Донишгоҳи педагогии Шимолу
+                                        шарқӣ дидан намуда, дар бораи таъсиси барномаи таълимии муштарак муҳокима
+                                        карданд.</p>
+                                    <a href="#" class="read-more" data-news-id="news8">Батафсил →</a>
+                                </div>
+                            </div>
+
+                            <!-- 9. Дифои рисолаи докторӣ -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm1.png" alt="Дифои рисола">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Илм</span>
+                                    <div class="news-date">29 октябри 2025</div>
+                                    <h3>Мудири кафедра Кенҷазода Манучеҳра Солеҳ рисолаи докториро дифоъ кард</h3>
+                                    <p>Дар Шӯрои диссертатсионии назди Донишгоҳи миллии Тоҷикистон, Кенҷазода Манучеҳра
+                                        Солеҳ рисолаи доктории худро бомуваффақона дифоъ намуд.</p>
+                                    <a href="#" class="read-more" data-news-id="news9">Батафсил →</a>
+                                </div>
+                            </div>
+
+                            <!-- 10. Ғолибони озмунҳо (БЕЗ ТУГМА) -->
+                            <div class="news-card">
+                                <div class="news-image">
+                                    <img src="/images/news_rasm.jpg" alt="Ғолибони озмун">
+                                </div>
+                                <div class="news-card-content">
+                                    <span class="news-category">Дастовард</span>
+                                    <div class="news-date">2025</div>
+                                    <h3>Донишҷӯёни мо дар озмунҳои ҷумҳуриявӣ ғолиб гардиданд</h3>
+                                    <p>Омӯзгори кафедраи забон ва адабиёти тоҷик Мамадраҷабзода Сабрина дар озмуни
+                                        "Фурӯғи субҳи доноӣ китоб аст" ҷойи 3-юмро гирифт. Донишҷӯ Ҷумаев Ҷумабой дар
+                                        озмуни "Илм фурӯғи маърифат" аз рўйи номинатсияи "География" ғолиб шуд.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="sidebar-widget">
+                            <h3>📌 Категорияҳо</h3>
+                            <ul class="category-list">
+                                <li data-cat="all"><span>Ҳамаи хабарҳо</span> <span>10</span></li>
+                                <li data-cat="partnership"><span>Ҳамкорӣ</span> <span>4</span></li>
+                                <li data-cat="science"><span>Илм</span> <span>3</span></li>
+                                <li data-cat="achievement"><span>Дастовард</span> <span>2</span></li>
+                                <li data-cat="meeting"><span>Вохӯрӣ</span> <span>1</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-widget">
+                            <h3>🕒 Хабарҳои охирин</h3>
+                            <ul class="recent-list">
+                                <li>
+                                    <h4>Сафири Фаронса ба Донишкада ташриф овард</h4>
+                                    <p>27 ноябри 2025</p>
+                                </li>
+                                <li>
+                                    <h4>Конференсияи 26-ум бо Донишкадаи Вернадский</h4>
+                                    <p>13 ноябри 2025</p>
+                                </li>
+                                <li>
+                                    <h4>Каримов Фареҳ Стипендияи Сафири Чин гирифт</h4>
+                                    <p>10 ноябри 2025</p>
+                                </li>
+                                <li>
+                                    <h4>Созишнома бо Донишгоҳи лифтҳои Корея</h4>
+                                    <p>31 октябри 2025</p>
+                                </li>
+                                <li>
+                                    <h4>Дифои рисолаи докторӣ</h4>
+                                    <p>29 октябри 2025</p>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="sidebar-widget">
+                            <h3>📅 Воқеаҳои оянда</h3>
+                            <div class="event-item">
+                                <div class="event-date">Май 2026</div>
+                                <p>Ҳафтаи байналмилалии сайёҳӣ ва соҳибкорӣ дар Донишкада</p>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">Июн 2026</div>
+                                <p>Оғози қабули ҳуҷҷатҳо (1 июн — 20 август)</p>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">Июл 2026</div>
+                                <p>Имтиҳонҳои дохилшавӣ (5 июл — 25 август)</p>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-widget">
+                            <h3>📁 Бойгонӣ</h3>
+                            <ul class="archive-list">
+                                <li>Ноябри 2025 <span>7</span></li>
+                                <li>Октябри 2025 <span>3</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>🎓 Донишкадаи байналмилалии Хуҷанд</h4>
+                    <p>Донишкадаи байналмилалии сайёҳӣ ва соҳибкории Тоҷикистон</p>
+                    <p>Таҳсилоти олии касбӣ аз рӯи стандартҳои байналмилалӣ</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Пайвандҳои зуд</h4>
+                    <p><a href="index.html">Асосӣ</a></p>
+                    <p><a href="about.html">Донишкада</a></p>
+                    <p><a href="faculties.html">Факултетҳо</a></p>
+                    <p><a href="news.html">Хабарҳо</a></p>
+                </div>
+                <div class="footer-col">
+                    <h4>Тамос</h4>
+                    <p>📍 Суғд, шаҳри Хуҷанд, маҳаллаи 27 хонаи 1</p>
+                    <p>📞 Тел: (+992) 234-88-02</p>
+                    <p>✉️ Email: info@iutet.tj</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Моро пайгирӣ кунед</h4>
+                    <div class="social-links"><a href="#">📘</a><a href="#">📷</a><a href="#">✈️</a><a href="#">🔗</a><a
+                            href="#">▶️</a></div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>© 2026 Донишкадаи байналмилалии Хуҷанд | <strong>Фозилзода Фирдавс</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- МОДАЛ ОЙНА -->
+    <div id="newsModal" class="news-modal">
+        <div class="news-modal-content">
+            <div class="news-modal-header">
+                <h3 id="newsModalTitle">Номи хабар</h3>
+                <button class="news-modal-close" onclick="closeNewsModal()">✕</button>
+            </div>
+            <div class="news-modal-body">
+                <div class="news-modal-date" id="newsModalDate"></div>
+                <div class="news-modal-text" id="newsModalText"></div>
+                <div class="news-modal-footer">
+                    <button class="btn btn-primary" onclick="closeNewsModal()">Пӯшидан</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ ХАБАРЛАР МАЪЛУМОТЛАРИ ============
+        const newsData = {
+            news1: {
+                date: "27 ноябри 2025",
+                title: "Сафири Фавқуллода ва Мухтори Ҷумҳурии Фаронса Элза Пинёл ба Донишкадаи байналмилалии Хуҷанд ташриф овард",
+                fullText: `<p>Дар доираи ташрифи расмӣ ба вилояти Суғд, Сафири Фаронса хонум Элза Пинёл бо роҳбарият ва омӯзгорони донишкада мулоқот карда, дар бораи рушди ҳамкориҳои таълимӣ ва фарҳангӣ суҳбат намуд.</p><p>Ҷонибҳо дар бораи ташкили курсҳои забони фаронсавӣ ва барномаҳои мубодилаи донишҷӯён созишнома баст.</p><p><strong>🤝 Дар доираи ҳамкорӣ:</strong></p><ul><li>Ташкили курсҳои забони фаронсавӣ</li><li>Барномаҳои мубодилаи донишҷӯён</li><li>Тадқиқоти муштараки илмӣ</li><li>Стажировкаи омӯзгорон дар Фаронса</li></ul>`
+            },
+            news2: {
+                date: "13 ноябри 2025",
+                title: "Иштирок дар конференсияи 26-уми маҷозӣ бо Донишкадаи идоракунии ба номи В.И. Вернадский",
+                fullText: `<p>Намояндагони Донишкадаи байналмилалии Хуҷанд дар конференсияи 26-уми маҷозии Донишкадаи идоракунии ба номи В.И. Вернадский (шаҳри Симферопол, Ҷумҳурии Қрим) иштирок намуданд.</p><p><strong>Мавзӯъҳои асосии конференсия:</strong></p><ul><li>Ҳамкориҳои илмӣ байни давлатҳо</li><li>Табодули таҷриба дар соҳаи идоракунӣ</li><li>Технологияҳои нави таълимӣ</li></ul><p>Донишкадаи мо дар конференсия бо маърӯзаҳои илмӣ иштирок намуд.</p>`
+            },
+            news3: {
+                date: "10 ноябри 2025",
+                title: "Донишҷӯи мо Каримов Фареҳ Хадирович Стипендияи Сафири Чин гирифт",
+                fullText: `<p>Дар Донишкадаи Конфутсийи назди Донишгоҳи миллии Тоҷикистон маросими супоридани Стипендияи Сафири Чин баргузор гардид.</p><p><strong>🏆 Ғолиб:</strong> Каримов Фареҳ Хадирович – донишҷӯи курси 2-юми ихтисоси "Забони хориҷӣ (забони хитоӣ)"-и факултети педагогика ва филология.</p><p><strong>📚 Моҳияти стипендия:</strong></p><ul><li>Таҳсили ройгон дар донишгоҳҳои Чин</li><li>Стипендияи моҳона (1500 юань/моҳ)</li><li>Табодули фарҳангӣ ва амалия дар Чин</li></ul>`
+            },
+            news5: {
+                date: "31 октябри 2025",
+                title: "Созишномаи ҳамкорӣ бо Донишгоҳи лифтҳои Корея имзо карда шуд",
+                fullText: `<p>Донишкадаи байналмилалии Хуҷанд бо Донишгоҳи лифтҳои Корея созишномаи ҳамкорӣ имзо кард.</p><p><strong>🤝 Соҳаҳои ҳамкорӣ:</strong></p><ul><li>Табодули донишҷӯён ва устодон</li><li>Лоиҳаҳои муштараки илмӣ</li><li>Такмили ихтисос дар соҳаи лифтсозӣ</li><li>Ташкили курсҳои забони кореягӣ</li></ul><p>Созишнома барои 5 сол баста шудааст.</p>`
+            },
+            news6: {
+                date: "30 октябри 2025",
+                title: "Семинари илмӣ-назариявӣ бо Донишгоҳи Анхалт (Олмон) ва Донишгоҳи давлатии иқтисодии Санкт-Петербург",
+                fullText: `<p>Бо мақсади рушди робитаҳои илмӣ, мубодилаи таҷриба, табодули донишҷӯён ва устодон, Донишкадаи байналмилалии Хуҷанд семинари илмӣ-назариявиро гузаронид.</p><p><strong>📌 Мавзӯи семинар:</strong> "Рушди туризм дар Тоҷикистон: имконият ва муаммоҳо"</p><p><strong>Иштирокчиён:</strong></p><ul><li>Донишгоҳи Анхалт (Олмон)</li><li>Донишгоҳи давлатии иқтисодии Санкт-Петербург (Русия)</li><li>Донишкадаи байналмилалии Хуҷанд</li></ul>`
+            },
+            news7: {
+                date: "27-28 октябри 2025",
+                title: "Иштирок дар Саммити байналмилалии табодули академӣ дар Тошканд",
+                fullText: `<p>Намояндагони Донишкадаи байналмилалии Хуҷанд дар Саммити байналмилалӣ, ки дар якҷоягӣ бо Донишгоҳи Кюнгдон (Ҷумҳурии Корея) баргузор гардид, иштирок намуданд.</p><p><strong>📊 Омор:</strong></p><ul><li>Зиёда аз 50 донишгоҳ аз 30 давлат</li><li>10 панели муҳокимавӣ</li><li>5 мизҳои мудаввар</li></ul><p>Дар натиҷа, донишкадаи мо бо 12 донишгоҳи нав созишномаи ҳамкорӣ баст.</p>`
+            },
+            news8: {
+                date: "23 октябри 2025",
+                title: "Сафари кориӣ ба Донишгоҳи педагогии Шимолу шарқӣ (Чин)",
+                fullText: `<p>Муовини ректор оид ба таълим, профессор Бобоҷониён Д.Д. ва декани факултети педагогика ва филология, дотсент Рустамзода З.Р. аз Донишгоҳи педагогии Шимолу шарқӣ дидан намуданд.</p><p><strong>Натиҷаҳои сафар:</strong></p><ul><li>Таъсиси барномаи таълимии муштарак</li><li>Курсҳои кӯтоҳмуддати такмили ихтисос</li><li>Табодули донишҷӯён аз ихтисосҳои педагогика ва забоншиносӣ</li></ul>`
+            },
+            news9: {
+                date: "29 октябри 2025",
+                title: "Мудири кафедраи муносибатҳои байналмилалӣ ва таърих Кенҷазода Манучеҳра Солеҳ рисолаи докториро дифоъ кард",
+                fullText: `<p>Дар Шӯрои диссертатсионии назди Донишгоҳи миллии Тоҷикистон, Кенҷазода Манучеҳра Солеҳ рисолаи доктории худро бомуваффақона дифоъ намуд.</p><p><strong>📖 Мавзӯи рисола:</strong> "Вижагиҳои сохторӣ ва дастурии ҷумлаҳои сода дар забони адабии муосири тоҷикӣ (дар асоси маводи насри муосир)"</p><p><strong>Роҳбари илмӣ:</strong> Гулназарзода Жило Бурӣ – доктори илмҳои филологӣ, профессор</p>`
+            }
+        };
+
+        // ============ МОДАЛ ОЙНАРО КУШОДАН ============
+        function openNewsModal(newsId) {
+            const data = newsData[newsId];
+            if (!data) return;
+
+            const modal = document.getElementById('newsModal');
+            const modalTitle = document.getElementById('newsModalTitle');
+            const modalDate = document.getElementById('newsModalDate');
+            const modalText = document.getElementById('newsModalText');
+
+            modalTitle.innerHTML = data.title;
+            modalDate.innerHTML = data.date;
+            modalText.innerHTML = data.fullText;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ============ МОДАЛ ОЙНАРО ЁПИШ ============
+        function closeNewsModal() {
+            const modal = document.getElementById('newsModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ============ ТУГМАЛАРГА ВОҚЕА БОҒЛАШ ============
+        document.addEventListener('DOMContentLoaded', function () {
+            const readMoreBtns = document.querySelectorAll('.read-more');
+            readMoreBtns.forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const newsId = this.getAttribute('data-news-id');
+                    if (newsId && newsData[newsId]) {
+                        openNewsModal(newsId);
+                    }
+                });
+            });
+
+            // Модалдан ташқари босганда ёпиш
+            const modal = document.getElementById('newsModal');
+            window.addEventListener('click', function (e) {
+                if (e.target === modal) closeNewsModal();
+            });
+        });
+
+        // ============ БУРГЕР МЕНЮ ============
+        const menuIcon = document.getElementById('menuIcon');
+        const navLinks = document.querySelector('.nav-links');
+        if (menuIcon) {
+            menuIcon.addEventListener('click', function () {
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // ============ ТИЛ АЛМАШТИРИШ ============
+        const langBtnNav = document.getElementById('langBtnNav');
+        const langDropdownNav = document.getElementById('langDropdownNav');
+        if (langBtnNav && langDropdownNav) {
+            langBtnNav.addEventListener('click', function (e) {
+                e.stopPropagation();
+                langDropdownNav.classList.toggle('show');
+            });
+            document.addEventListener('click', function () {
+                langDropdownNav.classList.remove('show');
+            });
+        }
+
+        // ============ HEADER СКРОЛЛ ЭФФЕКТИ ============
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+            }
+        });
+    </script>
+</body>
+
+</html>

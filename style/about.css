@@ -1,0 +1,644 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #FFFFFF;
+    color: #1A1A2E;
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+:root {
+    --primary: #0A66C2;
+    --primary-dark: #004182;
+    --white: #FFFFFF;
+    --dark: #1A1A2E;
+    --gray-light: #F5F5F5;
+    --gray: #666666;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2,
+h3,
+h4,
+.logo {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+h4 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.section-title h2 {
+    color: var(--dark);
+}
+
+.section-title p {
+    color: var(--gray);
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* ============ HEADER ============ */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
+
+.menu-icon {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* ============ PAGE HERO ============ */
+.page-hero {
+    padding: 160px 0 80px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    text-align: center;
+}
+
+.page-hero h1 {
+    color: var(--white);
+}
+
+.page-hero p {
+    font-size: 18px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ============ ТАРИХ (TIMELINE) ============ */
+.timeline-section {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: var(--primary);
+}
+
+.timeline-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.timeline-item:nth-child(odd) {
+    flex-direction: row;
+}
+
+.timeline-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.timeline-content {
+    width: 45%;
+    padding: 20px;
+    background: var(--gray-light);
+    border-radius: 16px;
+    transition: all 0.3s;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.timeline-year {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: var(--primary);
+    border-radius: 50%;
+    top: 20px;
+}
+
+/* ============ ҲАДАФ (MISSION) ============ */
+.mission-section {
+    padding: 80px 0;
+    background: var(--gray-light);
+}
+
+.mission-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mission-box {
+    background: var(--white);
+    padding: 48px 40px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+/* ============ РЕКТОР СЎЗИ ============ */
+.rector-section {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.rector-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 48px;
+    align-items: center;
+}
+
+.rector-image {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    color: var(--white);
+}
+
+.rector-image svg {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.rector-quote {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 24px;
+    font-style: italic;
+}
+
+.rector-name {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 2px solid var(--primary);
+}
+
+/* ============ ДОНИШКАДА ДАР РАҚАМҲО ============ */
+.stats-detailed {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--dark) 0%, #2a2a3e 100%);
+    color: var(--white);
+}
+
+.stats-detailed .section-title h2 {
+    color: var(--white);
+}
+
+.stats-detailed-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    text-align: center;
+}
+
+.stat-detailed-card {
+    padding: 32px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.stat-detailed-card svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    stroke: var(--primary);
+    fill: none;
+}
+
+.stat-number {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ============ СОХТОРИ ДОНИШКАДА ============ */
+.structure-section {
+    padding: 80px 0;
+    background: var(--white);
+}
+
+.structure-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+}
+
+.structure-card {
+    background: var(--gray-light);
+    padding: 32px;
+    border-radius: 24px;
+    text-align: left;
+    transition: all 0.3s;
+}
+
+.structure-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.structure-card h3 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.structure-card ul {
+    list-style: none;
+}
+
+.structure-card li {
+    padding: 8px 0;
+    color: var(--gray);
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* ============ РОҲБАРИЯТ ============ */
+.leadership-section {
+    padding: 80px 0;
+    background: var(--gray-light);
+}
+
+.leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    justify-content: center;
+}
+
+.leader-card {
+    background: var(--white);
+    padding: 32px 24px;
+    border-radius: 24px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.leader-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.leader-card svg {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    background: var(--gray-light);
+    padding: 15px;
+}
+
+.leader-card h4 {
+    margin: 16px 0 8px;
+}
+
+.leader-card p {
+    color: var(--gray);
+    font-size: 14px;
+}
+
+/* ============ FOOTER ============ */
+footer {
+    background: var(--dark);
+    color: var(--white);
+    padding: 48px 0 24px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-bottom: 48px;
+}
+
+.footer-col h4 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.footer-col p,
+.footer-col a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.footer-col a:hover {
+    color: var(--primary);
+}
+
+.social-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.social-links a {
+    font-size: 20px;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ============ МОБИЛ ============ */
+@media (max-width: 992px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    .rector-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .structure-grid,
+    .leadership-grid,
+    .stats-detailed-grid,
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .timeline::before {
+        left: 20px;
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(odd),
+    .timeline-item:nth-child(even) {
+        flex-direction: column;
+        margin-left: 40px;
+    }
+
+    .timeline-content {
+        width: 100%;
+    }
+
+    .timeline-dot {
+        left: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .structure-grid,
+    .leadership-grid,
+    .stats-detailed-grid,
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mission-box {
+        padding: 32px 24px;
+    }
+}
+
+
+/* Language Switcher inside Navigation - FIXED */
+.lang-switcher-nav {
+    position: relative;
+    list-style: none;
+    margin-left: 15px;
+}
+
+.lang-btn-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    padding: 8px 14px;
+    border-radius: 30px;
+    background: var(--gray-light);
+    transition: all 0.3s;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+.lang-btn-nav:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.lang-btn-nav:hover .arrow {
+    color: var(--white);
+}
+
+.arrow {
+    font-size: 10px;
+    transition: transform 0.3s;
+    color: var(--gray);
+}
+
+.lang-dropdown-nav {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-hover);
+    min-width: 140px;
+    display: none;
+    flex-direction: column;
+    list-style: none;
+    padding: 8px 0;
+    z-index: 1000;
+    border: 1px solid #eee;
+}
+
+.lang-dropdown-nav li {
+    padding: 0;
+    margin: 0;
+}
+
+.lang-dropdown-nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: var(--dark);
+    transition: all 0.3s;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.lang-dropdown-nav a:hover {
+    background: var(--gray-light);
+    color: var(--primary);
+}
+
+.lang-dropdown-nav.show {
+    display: flex;
+}
